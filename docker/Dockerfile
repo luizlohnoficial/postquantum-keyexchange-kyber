@@ -1,10 +1,11 @@
 # Imagem base utilizando Python 3.10 slim
 FROM python:3.10-slim
 
-# Atualiza o sistema e instala dependencias da liboqs
-RUN apt-get update && \
-    apt-get install -y liboqs-dev && \
-    rm -rf /var/lib/apt/lists/*
+
+# A imagem python-slim ja contem o necessario para executar o projeto.
+# Para simplificar o build e evitar dependencias extras, nao instalamos o
+# pacote `liboqs-dev`, uma vez que a biblioteca `oqs` eh opcional e o
+# codigo possui um mecanismo de fallback quando ela nao esta disponivel.
 
 # Define o diretorio de trabalho no container
 WORKDIR /app
@@ -19,4 +20,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 5000
 
 # Comando para iniciar o servidor
-CMD ["python", "-m", "kyber_key_exchange.src.api_server"]
+CMD ["python", "-m", "src.api_server"]

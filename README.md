@@ -5,19 +5,18 @@ Este projeto demonstra uma implementacao simples de troca de chaves pos-quantica
 ## Estrutura
 
 ```
-/kyber_key_exchange
-  /src
-    __init__.py
-    kyber_utils.py
-    api_server.py
-    quantum_engine.py
-  /tests
-    test_kyber_utils.py
-  /docker
-    Dockerfile
-  requirements.txt
-  README.md
-  .gitlab-ci.yml
+/src
+  __init__.py
+  kyber_utils.py
+  api_server.py
+  quantum_engine.py
+/tests
+  test_kyber_utils.py
+/docker
+  Dockerfile
+requirements.txt
+README.md
+.gitlab-ci.yml
 ```
 
 ## Como Executar
@@ -37,7 +36,7 @@ pytest
 3. Inicie a API:
 
 ```bash
-python -m kyber_key_exchange.src.api_server
+python -m src.api_server
 ```
 
 A API ficara disponivel em `http://localhost:5000`.
@@ -57,7 +56,7 @@ O arquivo `quantum_engine.py` apresenta um exemplo de circuito executado no Goog
 3. Execute o script:
 
 ```bash
-python -m kyber_key_exchange.src.quantum_engine
+python -m src.quantum_engine
 ```
 
 O resultado do circuito sera exibido no terminal.
@@ -68,6 +67,7 @@ Todas as etapas do processo de troca de chaves e da execucao do circuito
 quantico sao registradas em logs no console. Esses logs auxiliam no
 acompanhamento da geracao de chaves, encapsulamento, decapsulamento e
 conexao ao Google Quantum Engine.
+O workflow de CI tambem exibe esses logs ao rodar os testes.
 
 ## Docker
 
@@ -80,3 +80,11 @@ docker build -t kyber_exchange -f docker/Dockerfile .
 ## Pipeline CI/CD
 
 O arquivo `.gitlab-ci.yml` contem as etapas de build, test, docker e deploy.
+Um workflow equivalente para o GitHub Actions esta disponivel em
+`.github/workflows/ci.yml`.
+
+## Referencias
+
+- https://github.com/Argyle-Software/kyber
+- https://github.com/fisherstevenk/kyberJCE
+- https://github.com/antontutoveanu/crystals-kyber-javascript
