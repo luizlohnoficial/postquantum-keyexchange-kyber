@@ -81,3 +81,9 @@ docker build -t kyber_exchange -f docker/Dockerfile .
 O arquivo `.gitlab-ci.yml` contem as etapas de build, test, docker e deploy.
 Um workflow equivalente para o GitHub Actions esta disponivel em
 `.github/workflows/ci.yml`.
+
+## Referencias
+
+- https://github.com/Argyle-Software/kyber
+- https://github.com/fisherstevenk/kyberJCE
+- https://github.com/antontutoveanu/crystals-kyber-javascript
