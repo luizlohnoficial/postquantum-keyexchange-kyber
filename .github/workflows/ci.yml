@@ -19,7 +19,7 @@ jobs:
           pip install -r requirements.txt
       - name: Run tests
         run: |
-          pytest
+          pytest -o log_cli=true --log-cli-level=INFO
       - name: Build Docker image
         run: |
           docker build -t kyber_exchange -f docker/Dockerfile .

@@ -67,6 +67,7 @@ Todas as etapas do processo de troca de chaves e da execucao do circuito
 quantico sao registradas em logs no console. Esses logs auxiliam no
 acompanhamento da geracao de chaves, encapsulamento, decapsulamento e
 conexao ao Google Quantum Engine.
+O workflow de CI tambem exibe esses logs ao rodar os testes.
 
 ## Docker
 

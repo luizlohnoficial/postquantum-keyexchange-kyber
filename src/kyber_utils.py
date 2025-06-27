@@ -24,11 +24,14 @@ logging.basicConfig(level=logging.INFO,
 
 def gerar_par_chaves():
     """Gera um par de chaves Kyber e retorna codificado em Base64."""
+    logger.info("Iniciando geração do par de chaves")
     if KeyEncapsulation is None:
         # Fallback simples para testes quando oqs nao esta instalado
+        logger.warning("Biblioteca oqs ausente, utilizando bytes aleatórios")
         public_key = os.urandom(32)
         secret_key = os.urandom(32)
     else:
+        logger.info("Usando oqs.Kyber512 para gerar o par de chaves")
         kem = KeyEncapsulation('Kyber512')
         public_key = kem.generate_keypair()
         secret_key = kem.export_secret_key()
@@ -40,32 +43,36 @@ def gerar_par_chaves():
 
 def encapsular_segredo(chave_publica_b64):
     """Encapsula um segredo usando a chave publica em Base64."""
+    logger.info("Preparando encapsulamento do segredo")
     if KeyEncapsulation is None:
-        # Fallback: gera um segredo aleatorio e o reutiliza como ciphertext
+        logger.warning("Biblioteca oqs ausente, usando fallback aleatório")
         shared_secret = os.urandom(32)
         secret_b64 = base64.b64encode(shared_secret).decode('utf-8')
         ct_b64 = secret_b64
     else:
+        logger.info("Decodificando chave pública e executando encap_secret")
         kem = KeyEncapsulation('Kyber512')
         public_key = base64.b64decode(chave_publica_b64)
         ciphertext, shared_secret = kem.encap_secret(public_key)
         ct_b64 = base64.b64encode(ciphertext).decode('utf-8')
         secret_b64 = base64.b64encode(shared_secret).decode('utf-8')
 
-    logger.info("Segredo encapsulado")
+    logger.info("Encapsulamento concluído")
     return secret_b64, ct_b64
 
 def decapsular_segredo(ciphertext_b64, chave_secreta_b64):
     """Decapsula o segredo compartilhado a partir do ciphertext e da chave secreta."""
+    logger.info("Preparando decapsulamento do segredo")
     if KeyEncapsulation is None:
-        # No fallback retornamos simplesmente o ciphertext
+        logger.warning("Biblioteca oqs ausente, retornando ciphertext diretamente")
         secret_b64 = ciphertext_b64
     else:
+        logger.info("Importando chave secreta e executando decap_secret")
         kem = KeyEncapsulation('Kyber512')
         kem.import_secret_key(base64.b64decode(chave_secreta_b64))
         ciphertext = base64.b64decode(ciphertext_b64)
         shared_secret = kem.decap_secret(ciphertext)
         secret_b64 = base64.b64encode(shared_secret).decode('utf-8')
 
-    logger.info("Segredo decapsulado")
+    logger.info("Decapsulamento concluído")
     return secret_b64
