@@ -1,0 +1,25 @@
+stages:
+  - build
+  - test
+  - docker
+  - deploy
+
+build:
+  stage: build
+  script:
+    - pip install -r requirements.txt
+
+test:
+  stage: test
+  script:
+    - pytest
+
+docker:
+  stage: docker
+  script:
+    - docker build -t kyber_exchange -f docker/Dockerfile .
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploy simulado"
